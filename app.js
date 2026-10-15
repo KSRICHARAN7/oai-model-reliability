@@ -42,16 +42,17 @@ M.study.forEach((d,i)=>{const b=document.createElement('button');b.textContent=`
 function drawChart(){
  const chart=$('risk-chart');chart.querySelectorAll('g').forEach(e=>e.remove());const g=svg('g',{});chart.appendChild(g);
  const x=v=>75+(v-80)/20*585,y=v=>275-(v-1.4)/.45*220;
- [1.4,1.5,1.6,1.7,1.8].forEach(v=>{g.appendChild(svg('line',{x1:75,x2:660,y1:y(v),y2:y(v),stroke:'#e4eae4','stroke-width':1}));g.appendChild(svg('text',{x:59,y:y(v)+4,'text-anchor':'end',fill:'#647475','font-size':11},v.toFixed(1)));});
- [80,85,90,95,100].forEach(v=>g.appendChild(svg('text',{x:x(v),y:300,'text-anchor':'middle',fill:'#647475','font-size':11},`${v}%`)));
- g.appendChild(svg('text',{x:365,y:331,'text-anchor':'middle',fill:'#647475','font-size':11},'Retained coverage'));
- g.appendChild(svg('text',{x:-160,y:20,transform:'rotate(-90)','text-anchor':'middle',fill:'#647475','font-size':11},'Retained-case MAE (WOMAC points)'));
+ [1.4,1.5,1.6,1.7,1.8].forEach(v=>{g.appendChild(svg('line',{x1:75,x2:660,y1:y(v),y2:y(v),stroke:'#dbe2ef','stroke-width':1}));g.appendChild(svg('text',{x:59,y:y(v)+4,'text-anchor':'end',fill:'#4f5763','font-size':15},v.toFixed(1)));});
+ [80,85,90,95,100].forEach(v=>g.appendChild(svg('text',{x:x(v),y:300,'text-anchor':'middle',fill:'#4f5763','font-size':15},`${v}%`)));
+ g.appendChild(svg('text',{x:365,y:331,'text-anchor':'middle',fill:'#4f5763','font-size':15},'Retained coverage'));
+ g.appendChild(svg('text',{x:-160,y:20,transform:'rotate(-90)','text-anchor':'middle',fill:'#4f5763','font-size':15},'Retained-case MAE (WOMAC points)'));
  const sorted=[...M.study].sort((a,b)=>a.coverage-b.coverage);
  const band=sorted.map(d=>`${x(d.coverage)},${y(d.hi)}`).concat([...sorted].reverse().map(d=>`${x(d.coverage)},${y(d.lo)}`)).join(' ');
  g.appendChild(svg('polygon',{points:band,fill:'#889493','fill-opacity':'.13'}));
- [['random','#899493','6 5'],['targeted','#23745f','']].forEach(([key,color,dash])=>{g.appendChild(svg('polyline',{points:sorted.map(d=>`${x(d.coverage)},${y(d[key])}`).join(' '),fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':dash}));});
- const active=M.study[studyIndex];g.appendChild(svg('line',{x1:x(active.coverage),x2:x(active.coverage),y1:38,y2:275,stroke:'#abc4b5','stroke-dasharray':'3 5'}));
- M.study.forEach((d,i)=>{const hit=svg('g',{'aria-hidden':'true'});const c=svg('circle',{cx:x(d.coverage),cy:y(d.targeted),r:i===studyIndex?7:4.5,fill:'#23745f',stroke:'white','stroke-width':2});hit.appendChild(c);hit.style.cursor='pointer';hit.addEventListener('click',()=>{studyIndex=i;updateStudy();});g.appendChild(hit);});
- const labelX=Math.max(123,Math.min(610,x(active.coverage)));g.appendChild(svg('rect',{x:labelX-48,y:y(active.targeted)-41,width:96,height:27,rx:2,fill:'#18333c'}));g.appendChild(svg('text',{x:labelX,y:y(active.targeted)-23,'text-anchor':'middle',fill:'white','font-size':11},`MAE ${active.targeted.toFixed(3)}`));
+ [['random','#737c8d','6 5'],['targeted','#1749cf','']].forEach(([key,color,dash])=>{g.appendChild(svg('polyline',{points:sorted.map(d=>`${x(d.coverage)},${y(d[key])}`).join(' '),fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':dash}));});
+ const active=M.study[studyIndex];g.appendChild(svg('line',{x1:x(active.coverage),x2:x(active.coverage),y1:38,y2:275,stroke:'#9eb2e7','stroke-dasharray':'3 5'}));
+ M.study.forEach((d,i)=>{const hit=svg('g',{'aria-hidden':'true'});const c=svg('circle',{cx:x(d.coverage),cy:y(d.targeted),r:i===studyIndex?7:4.5,fill:'#1749cf',stroke:'white','stroke-width':2});hit.appendChild(c);hit.style.cursor='pointer';hit.addEventListener('click',()=>{studyIndex=i;updateStudy();});g.appendChild(hit);});
+ const labelX=Math.max(123,Math.min(610,x(active.coverage)));g.appendChild(svg('rect',{x:labelX-56,y:y(active.targeted)-41,width:112,height:30,rx:2,fill:'#171b22'}));g.appendChild(svg('text',{x:labelX,y:y(active.targeted)-23,'text-anchor':'middle',fill:'white','font-size':15},`MAE ${active.targeted.toFixed(3)}`));
 }
 updateCase();updateStudy();
+
